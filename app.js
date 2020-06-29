@@ -7,7 +7,6 @@ app.use(bodyParser.json())
 const PORT = 3000;
 const HOST = "0.0.0.0";
 const Themeparks = require("themeparks");
-let status = 1;
 
 //parques
 const DisneyWorldMagicKingdom = new Themeparks.Parks.WaltDisneyWorldMagicKingdom();
@@ -115,5 +114,5 @@ app.get('/teste', (req, res) => {
 
 
 
-app.listen(PORT, PORT)
+app.listen(PORT, HOST)
 
