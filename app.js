@@ -5,7 +5,7 @@ const app = new Express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const PORT = 3000;
-const HOST = "0.0.0.0";
+const HOST = "localholst";
 const Themeparks = require("themeparks");
 
 //parques
