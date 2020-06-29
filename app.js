@@ -5,7 +5,7 @@ const app = new Express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const PORT = 3000;
-const HOST = "localholst";
+const HOST = "localhost";
 const Themeparks = require("themeparks");
 
 //parques
@@ -94,7 +94,7 @@ app.get('/park', (req, res) => {
             dataPark = SixFlagsDiscoveryKingdom;
             break;
         default:
-            res.json('parque nao suportado')
+            return res.json('parque nao suportado')
             break;
     }
 
