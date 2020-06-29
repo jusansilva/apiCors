@@ -8,7 +8,6 @@
     "express": "^4.17.1",
     "node-fetch": "^2.6.0",
     "request": "^2.88.2",
-    "sqlite3": "^4.2.0",
     "themeparks": "^5.1.38"
   },
   "devDependencies": {},
