@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MD1</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="API">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="author" content="Jusan Magno">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type="text/css">
+    </style>
+</head>
+
+<body>
+    <table class="table table-borderless table-responsive">
+        <thead>
+            <tr id="titulos">
+                <th>Atração</th>
+                <th>Status</th>
+                <th>Espera</th>
+            </tr>
+
+        </thead>
+        <div class='list-group'>
+
+        </div>
+        <tbody>
+        </tbody>
+    </table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+<script type="text/javascript">
+    $("#titulos tr th").css("white-space", "pre-wrap");
+    var parque = 'DisneyWorldMagicKingdom';
+    $(document).ready(function () {
+        var urlStr = `http://localhost:3000/park?park=${parque}`;
+        $.ajax({
+            "async": true,
+            "crossDomain": true,
+            "url": urlStr,
+            "method": "GET",
+            dataType: "json",
+
+            success: function (data) {
+                var html = "<tr>";
+                data.map((d) => {
+                    html += "<td>" + d.name + "</td>";
+                    html += "<td>" + d.status + "</td>";
+                    html += "<td>" + d.waitTime + "</td>";
+                    html += "</tr>";
+                    return $('table tbody').append(html);
+                })
+            },
+            error: function (error) {
+                var html = "<tr>";
+                html += "<td> No Momento não temos dados informado</td>";
+                html += "</tr>";
+                return $('table tbody').append(html);
+            }
+        })
+
+    })
+
+</script>
+
+</html>
