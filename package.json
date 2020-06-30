@@ -12,7 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node app.js"
+    "start": "npm install && node app.js"
   },
   "author": "Jusan Magno",
   "license": "ISC"
