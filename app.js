@@ -5,7 +5,6 @@ const app = new Express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const PORT = 3000;
-const HOST = "localhost";
 const Themeparks = require("themeparks");
 
 //parques
@@ -114,5 +113,7 @@ app.get('/teste', (req, res) => {
 
 
 
-app.listen(PORT, HOST)
+app.listen(PORT, function(){
+    console.log("estou no ar")
+})
 
