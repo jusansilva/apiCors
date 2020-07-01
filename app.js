@@ -59,7 +59,7 @@ app.get('/radio', (req, res) => {
 });
 
 app.get('/park', (req, res) => {
-    
+
     res.header("Access-Control-Allow-Origin", "*");
 
     const park = req.query.park;
@@ -106,14 +106,81 @@ app.get('/park', (req, res) => {
 })
 
 
-app.get('/teste', (req, res) => {
-    res.render(__dirname + '/test.html');
+app.get('/parques', (req, res) => {
+    let data = [];
+    res.header("Access-Control-Allow-Origin", "*");
+    const processo = async () => {
+        DisneyWorldMagicKingdom.GetWaitTimes().then((d) => {
+            data.push( {"WaltDisneyWorldMagicKingdom": d })
+            WaltDisneyWorldHollywoodStudios.GetWaitTimes().then((d) => {
+                data.push({ "WaltDisneyWorldHollywoodStudios": d })
+                WaltDisneyWorldAnimalKingdom.GetWaitTimes().then((d) => {
+                    data.push({ "WaltDisneyWorldAnimalKingdom": d })
+                    WaltDisneyWorldEpcot.GetWaitTimes().then((d) => {
+                        data.push({ "WaltDisneyWorldEpcot": d })
+                        SeaworldOrlando.GetWaitTimes().then((d) => {
+                            data.push({ "SeaworldOrlando": d })
+                            BuschGardensTampa.GetWaitTimes().then((d) => {
+                                data.push({ "BuschGardensTampa": d })
+                                SixFlagsDiscoveryKingdom.GetWaitTimes().then((d) => {
+                                    data.push({ "SixFlagsDiscoveryKingdom": d })
+                                    res.json(data);
+                                }).catch((error) => {
+                                    console.log(error)
+                                })
+                            }).catch((error) => {
+                                console.log(error)
+                            })
+                        }).catch((error) => {
+                            console.log(error)
+                        })
+                    }).catch((error) => {
+                        console.log(error)
+                    })
+
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
+        }).catch((error) => {
+            console.log(error)
+        })
+
+
+
+        // UniversalStudiosFlorida.GetWaitTimes().then((d) => {
+        //     data.push(d)
+        // }).catch((error) => {
+        //     console.log(error)
+        // })
+        // UniversalIslandsOfAdventure.GetWaitTimes().then((d) => {
+        //     data.push(d)
+        // }).catch((error) => {
+        //     console.log(error)
+        // })
+
+
+
+
+
+
+
+    }
+
+    processo();
+
+    // res.json(data)
+
 
 })
 
 
 
-app.listen(PORT, function(){
+
+
+app.listen(PORT, function () {
     console.log("estou no ar")
 })
 
