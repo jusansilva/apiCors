@@ -208,14 +208,13 @@ app.get('/count-down', (req, res) => {
 app.post('/count-down', (req, res) => {
 
     const { email, data } = req.body;
-    console.log(email, data);
+
     try {
         fs.readFile('./data.json', (err, response) => {
 
             let database = JSON.parse(response);
             database.table.push({ email: email, data: data });
             var json = JSON.stringify(database);
-            console.log(json);
             fs.writeFile('./data.json', json, function (err, result) {
                 if (err) console.log('error', err);
                 return res.status(200).json({ message: "success" })
