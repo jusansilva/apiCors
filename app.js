@@ -6,6 +6,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const PORT = 3000;
 const Themeparks = require("themeparks");
+const fs = require('fs');
 
 //parques
 const DisneyWorldMagicKingdom = new Themeparks.Parks.WaltDisneyWorldMagicKingdom();
@@ -111,7 +112,7 @@ app.get('/parques', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     const processo = async () => {
         DisneyWorldMagicKingdom.GetWaitTimes().then((d) => {
-            data.push( {"WaltDisneyWorldMagicKingdom": d })
+            data.push({ "WaltDisneyWorldMagicKingdom": d })
             WaltDisneyWorldHollywoodStudios.GetWaitTimes().then((d) => {
                 data.push({ "WaltDisneyWorldHollywoodStudios": d })
                 WaltDisneyWorldAnimalKingdom.GetWaitTimes().then((d) => {
@@ -171,13 +172,62 @@ app.get('/parques', (req, res) => {
 
     processo();
 
-    // res.json(data)
 
 
 })
 
+app.get('/count-down', (req, res) => {
+
+    const { email } = req.query;
+
+    try {
+        fs.readFile('./data.json', (err, data) => {
+            if (err) console.log(err);
+            let database = JSON.parse(data);
+            let verify = database.table.filter(value => {
+                if (value.email === email) {
+                    return value
+                }
+            })
+
+            if (verify[0].email === email) {
+                const { email, data } = verify[0];
+                return res.status(200).json({ email, data });
+            } else {
+                return res.status(500).json({ message: "email não encontrado" })
+
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({ message: error })
+    }
 
 
+})
+
+app.post('/count-down', (req, res) => {
+
+    const { email, data } = req.body;
+    console.log(email, data);
+    try {
+        fs.readFile('./data.json', (err, response) => {
+
+            let database = JSON.parse(response);
+            database.table.push({ email: email, data: data });
+            var json = JSON.stringify(database);
+            console.log(json);
+            fs.writeFile('./data.json', json, function (err, result) {
+                if (err) console.log('error', err);
+                return res.status(200).json({ message: "success" })
+            });
+
+        });
+
+    } catch (error) {
+        return res.status(500).json({ message: error })
+    }
+
+})
 
 
 app.listen(PORT, function () {

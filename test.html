@@ -19,14 +19,7 @@
 
 <body>
     <table class="table table-borderless table-responsive">
-        <thead>
-            <tr id="titulos">
-                <th>Atração</th>
-                <th>Status</th>
-                <th>Espera</th>
-            </tr>
 
-        </thead>
         <div class='list-group'>
 
         </div>
@@ -45,7 +38,8 @@
     $("#titulos tr th").css("white-space", "pre-wrap");
     var parque = 'DisneyWorldMagicKingdom';
     $(document).ready(function () {
-        var urlStr = `http://orlandoguia.com.br/park?park=${parque}`;
+        // var urlStr = `http://orlandoguia.com.br/park?park=${parque}`;
+        var urlStr = "http://localhost:3000/parques"
         $.ajax({
             "async": true,
             "crossDomain": true,
@@ -54,14 +48,158 @@
             dataType: "json",
 
             success: function (data) {
-                var html = "<tr>";
-                data.map((d) => {
-                    html += "<td>" + d.name + "</td>";
-                    html += "<td>" + d.status + "</td>";
-                    html += "<td>" + d.waitTime + "</td>";
-                    html += "</tr>";
-                    return $('table tbody').append(html);
-                })
+                const consulta = data
+                var html;
+                for (let i = 0; i < data.length; i++) {
+                    console.log(data[i].WaltDisneyWorldHollywoodStudios);
+                    if (data[i].WaltDisneyWorldMagicKingdom) {
+                        let WaltDisneyWorldMagicKingdom = data[i].WaltDisneyWorldMagicKingdom;
+                        html += "<thead>";
+                        html += "<tr>";
+                        html += "<th>WaltDisney World MagicKingdom</th>";
+                        html += "</tr>"
+                        html += '<tr>';
+                        html += "<th>Atração</th>";
+                        html += "<th>Status</th>";
+                        html += "<th>Espera</th>";
+                        html += "</tr>";
+                        html += "</thead>"
+                        WaltDisneyWorldMagicKingdom.map((d) => {
+                            html += "<tr>";
+                            html += "<td>" + d.name + "</td>";
+                            html += "<td>" + d.status + "</td>";
+                            html += "<td>" + d.waitTime + "</td>";
+                            html += "</tr>";
+                        })
+                    }
+                    if (data[i].WaltDisneyWorldHollywoodStudios) {
+                        let WaltDisneyWorldHollywoodStudios = data[i].WaltDisneyWorldHollywoodStudios;
+                        html += "<thead>";
+                        html += "<tr>";
+                        html += "<th>WaltDisney World Hollywood Studios</th>";
+                        html += "</tr>"
+                        html += '<tr>';
+                        html += "<th>Atração</th>";
+                        html += "<th>Status</th>";
+                        html += "<th>Espera</th>";
+                        html += "</tr>";
+                        html += "</thead>"
+                        WaltDisneyWorldHollywoodStudios.map((d) => {
+                            html += "<tr>";
+                            html += "<td>" + d.name + "</td>";
+                            html += "<td>" + d.status + "</td>";
+                            html += "<td>" + d.waitTime + "</td>";
+                            html += "</tr>";
+                        })
+                    }
+                    if (data[i].WaltDisneyWorldAnimalKingdom) {
+                        let WaltDisneyWorldAnimalKingdom = data[i].WaltDisneyWorldAnimalKingdom;
+                        html += "<thead>";
+                        html += "<tr>";
+                        html += "<th>WaltDisney World Animal Kingdom</th>";
+                        html += "</tr>"
+                        html += '<tr>';
+                        html += "<th>Atração</th>";
+                        html += "<th>Status</th>";
+                        html += "<th>Espera</th>";
+                        html += "</tr>";
+                        html += "</thead>"
+                        WaltDisneyWorldAnimalKingdom.map((d) => {
+                            html += "<tr>";
+                            html += "<td>" + d.name + "</td>";
+                            html += "<td>" + d.status + "</td>";
+                            html += "<td>" + d.waitTime + "</td>";
+                            html += "</tr>";
+                        })
+                    }
+
+                    if (data[i].WaltDisneyWorldEpcot) {
+                        let WaltDisneyWorldEpcot = data[i].WaltDisneyWorldEpcot;
+                        html += "<thead>";
+                        html += "<tr>";
+                        html += "<th>WaltDisney World Epcot</th>";
+                        html += "</tr>"
+                        html += '<tr>';
+                        html += "<th>Atração</th>";
+                        html += "<th>Status</th>";
+                        html += "<th>Espera</th>";
+                        html += "</tr>";
+                        html += "</thead>"
+                        WaltDisneyWorldEpcot.map((d) => {
+                            html += "<tr>";
+                            html += "<td>" + d.name + "</td>";
+                            html += "<td>" + d.status + "</td>";
+                            html += "<td>" + d.waitTime + "</td>";
+                            html += "</tr>";
+                        })
+                    }
+                     if (data[i].SeaworldOrlando) {
+                        let SeaworldOrlando = data[i].SeaworldOrlando;
+                        html += "<thead>";
+                        html += "<tr>";
+                        html += "<th>Sea World Orlando</th>";
+                        html += "</tr>"
+                        html += '<tr>';
+                        html += "<th>Atração</th>";
+                        html += "<th>Status</th>";
+                        html += "<th>Espera</th>";
+                        html += "</tr>";
+                        html += "</thead>"
+                        SeaworldOrlando.map((d) => {
+                            html += "<tr>";
+                            html += "<td>" + d.name + "</td>";
+                            html += "<td>" + d.status + "</td>";
+                            html += "<td>" + d.waitTime + "</td>";
+                            html += "</tr>";
+                        })
+                    }
+
+                     if (data[i].BuschGardensTampa) {
+                        let BuschGardensTampa = data[i].BuschGardensTampa;
+                        html += "<thead>";
+                        html += "<tr>";
+                        html += "<th>Busch Gardens Tampa</th>";
+                        html += "</tr>"
+                        html += '<tr>';
+                        html += "<th>Atração</th>";
+                        html += "<th>Status</th>";
+                        html += "<th>Espera</th>";
+                        html += "</tr>";
+                        html += "</thead>"
+                        BuschGardensTampa.map((d) => {
+                            html += "<tr>";
+                            html += "<td>" + d.name + "</td>";
+                            html += "<td>" + d.status + "</td>";
+                            html += "<td>" + d.waitTime + "</td>";
+                            html += "</tr>";
+                        })
+                    }
+
+                     if (data[i].SixFlagsDiscoveryKingdom) {
+                        let SixFlagsDiscoveryKingdom = data[i].SixFlagsDiscoveryKingdom;
+                        html += "<thead>";
+                        html += "<tr>";
+                        html += "<th>Discovery Kingdom</th>";
+                        html += "</tr>"
+                        html += '<tr>';
+                        html += "<th>Atração</th>";
+                        html += "<th>Status</th>";
+                        html += "<th>Espera</th>";
+                        html += "</tr>";
+                        html += "</thead>"
+                        SixFlagsDiscoveryKingdom.map((d) => {
+                            html += "<tr>";
+                            html += "<td>" + d.name + "</td>";
+                            html += "<td>" + d.status + "</td>";
+                            html += "<td>" + d.waitTime + "</td>";
+                            html += "</tr>";
+                        })
+                    }
+
+                }
+
+                return $('table tbody').append(html);
+
             },
             error: function (error) {
                 var html = "<tr>";
