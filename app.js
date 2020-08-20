@@ -68,7 +68,7 @@ app.get('/park', async (req, res) => {
                         return fetch(`${baseUrl}/${parque}/attractions/${element.permalink}.json`).then((resp) => {
                             return resp.json()
                         }).then((d) => {
-                            return { name: d.name, status: d.open_emh_morning, waitTime: d.average_wait_per_hundred };
+                            return { name: d.name , status: d.open_emh_morning?"Aberto":"fechado", waitTime: d.average_wait_per_hundred?d.average_wait_per_hundred:'' };
                         })
                     }))
                     return data;
@@ -86,7 +86,7 @@ app.get('/park', async (req, res) => {
                         return fetch(`${baseUrl}/${parque}/attractions/${element.permalink}.json`).then((resp) => {
                             return resp.json()
                         }).then((d) => {
-                            return { name: d.name, status: d.open_emh_morning, waitTime: d.average_wait_per_hundred };
+                            return { name: d.name , status: d.open_emh_morning?"Aberto":"fechado", waitTime: d.average_wait_per_hundred?d.average_wait_per_hundred:'' };
                         })
                     }))
                     return data;
@@ -104,7 +104,7 @@ app.get('/park', async (req, res) => {
                         return fetch(`${baseUrl}/${parque}/attractions/${element.permalink}.json`).then((resp) => {
                             return resp.json()
                         }).then((d) => {
-                            return { name: d.name, status: d.open_emh_morning, waitTime: d.average_wait_per_hundred };
+                            return { name: d.name , status: d.open_emh_morning?"Aberto":"fechado", waitTime: d.average_wait_per_hundred?d.average_wait_per_hundred:'' };
                         })
                     }))
                     return data;
@@ -122,7 +122,7 @@ app.get('/park', async (req, res) => {
                         return fetch(`${baseUrl}/${parque}/attractions/${element.permalink}.json`).then((resp) => {
                             return resp.json()
                         }).then((d) => {
-                            return { name: d.name, status: d.open_emh_morning, waitTime: d.average_wait_per_hundred };
+                            return { name: d.name , status: d.open_emh_morning?"Aberto":"fechado", waitTime: d.average_wait_per_hundred?d.average_wait_per_hundred:'' };
                         })
                     }))
                     return data;
