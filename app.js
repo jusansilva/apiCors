@@ -58,7 +58,7 @@ app.get('/park', async (req, res) => {
 
     const park = req.query.park;
     switch (park) {
-        case 'WaltDisneyWorldMagicKingdom':
+        case 'DisneyWorldMagicKingdom':
             const magicKingdom = (parque) => {
                 return fetch(`${baseUrl}/${parque}/attractions.json`).then((response) => {
                     return response.json();
