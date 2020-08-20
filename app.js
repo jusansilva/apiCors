@@ -5,26 +5,20 @@ const app = new Express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 const PORT = 3000;
-const Themeparks = require("themeparks");
+var Themeparks = require("themeparks");
+const baseUrl = 'https://touringplans.com';
 const fs = require('fs');
+const fetch = require('node-fetch');
 
-//parques
 const DisneyWorldMagicKingdom = new Themeparks.Parks.WaltDisneyWorldMagicKingdom();
 const WaltDisneyWorldHollywoodStudios = new Themeparks.Parks.WaltDisneyWorldHollywoodStudios();
 const WaltDisneyWorldAnimalKingdom = new Themeparks.Parks.WaltDisneyWorldAnimalKingdom();
 const WaltDisneyWorldEpcot = new Themeparks.Parks.WaltDisneyWorldEpcot();
-
 const UniversalStudiosFlorida = new Themeparks.Parks.UniversalStudiosFlorida();
 const UniversalIslandsOfAdventure = new Themeparks.Parks.UniversalIslandsOfAdventure();
-
 const SeaworldOrlando = new Themeparks.Parks.SeaworldOrlando();
 const BuschGardensTampa = new Themeparks.Parks.BuschGardensTampa();
 const SixFlagsDiscoveryKingdom = new Themeparks.Parks.SixFlagsDiscoveryKingdom();
-
-
-
-
-
 
 //retorna resposta como JSON
 app.get('/', (req, res) => {
@@ -59,52 +53,125 @@ app.get('/radio', (req, res) => {
 
 });
 
-app.get('/park', (req, res) => {
-
+app.get('/park', async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
 
     const park = req.query.park;
-
     switch (park) {
-        case 'DisneyWorldMagicKingdom':
-            dataPark = DisneyWorldMagicKingdom;
+        case 'WaltDisneyWorldMagicKingdom':
+            const magicKingdom = (parque) => {
+                return fetch(`${baseUrl}/${parque}/attractions.json`).then((response) => {
+                    return response.json();
+                }).then(async (dataJson) => {
+                    const data = await Promise.all(dataJson.map((element) => {
+
+                        return fetch(`${baseUrl}/${parque}/attractions/${element.permalink}.json`).then((resp) => {
+                            return resp.json()
+                        }).then((d) => {
+                            return { name: d.name, status: d.open_emh_morning, waitTime: d.average_wait_per_hundred };
+                        })
+                    }))
+                    return data;
+                })
+            }
+            return res.json(await magicKingdom('magic-kingdom'));
             break;
         case 'WaltDisneyWorldHollywoodStudios':
-            dataPark = WaltDisneyWorldHollywoodStudios;
+            const HollywoodStudios = (parque) => {
+                return fetch(`${baseUrl}/${parque}/attractions.json`).then((response) => {
+                    return response.json();
+                }).then(async (dataJson) => {
+                    const data = await Promise.all(dataJson.map((element) => {
+
+                        return fetch(`${baseUrl}/${parque}/attractions/${element.permalink}.json`).then((resp) => {
+                            return resp.json()
+                        }).then((d) => {
+                            return { name: d.name, status: d.open_emh_morning, waitTime: d.average_wait_per_hundred };
+                        })
+                    }))
+                    return data;
+                })
+            }
+            return res.json(await HollywoodStudios('hollywood-studios'));
             break;
         case 'WaltDisneyWorldAnimalKingdom':
-            dataPark = WaltDisneyWorldAnimalKingdom;
+            const WorldAnimalKingdom = (parque) => {
+                return fetch(`${baseUrl}/${parque}/attractions.json`).then((response) => {
+                    return response.json();
+                }).then(async (dataJson) => {
+                    const data = await Promise.all(dataJson.map((element) => {
+
+                        return fetch(`${baseUrl}/${parque}/attractions/${element.permalink}.json`).then((resp) => {
+                            return resp.json()
+                        }).then((d) => {
+                            return { name: d.name, status: d.open_emh_morning, waitTime: d.average_wait_per_hundred };
+                        })
+                    }))
+                    return data;
+                })
+            }
+            return res.json(await WorldAnimalKingdom('animal-kingdom'));
             break;
         case 'WaltDisneyWorldEpcot':
-            dataPark = WaltDisneyWorldEpcot;
+            const Epcot = (parque) => {
+                return fetch(`${baseUrl}/${parque}/attractions.json`).then((response) => {
+                    return response.json();
+                }).then(async (dataJson) => {
+                    const data = await Promise.all(dataJson.map((element) => {
+
+                        return fetch(`${baseUrl}/${parque}/attractions/${element.permalink}.json`).then((resp) => {
+                            return resp.json()
+                        }).then((d) => {
+                            return { name: d.name, status: d.open_emh_morning, waitTime: d.average_wait_per_hundred };
+                        })
+                    }))
+                    return data;
+                })
+            }
+            return res.json(await Epcot('epcot'));
             break;
         case 'UniversalStudiosFlorida':
-            dataPark = UniversalStudiosFlorida;
+            UniversalStudiosFlorida.GetWaitTimes().then((d) => {
+                return res.json(d)
+            }).catch((error) => {
+                console.log(error)
+            })
             break;
         case 'UniversalIslandsOfAdventure':
-            dataPark = UniversalIslandsOfAdventure;
+            UniversalIslandsOfAdventure.GetWaitTimes().then((d) => {
+                return res.json(d)
+            }).catch((error) => {
+                console.log(error)
+            })
             break;
         case 'SeaworldOrlando':
-            dataPark = SeaworldOrlando;
+            SeaworldOrlando.GetWaitTimes().then((d) => {
+                return res.json(d)
+            }).catch((error) => {
+                console.log(error)
+            })
             break;
         case 'BuschGardensTampa':
-            dataPark = BuschGardensTampa;
+            BuschGardensTampa.GetWaitTimes().then((d) => {
+                return res.json(d)
+            }).catch((error) => {
+                console.log(error)
+            })
             break;
         case 'SixFlagsDiscoveryKingdom':
-            dataPark = SixFlagsDiscoveryKingdom;
+            SixFlagsDiscoveryKingdom.GetWaitTimes().then((d) => {
+                return res.json(d)
+            }).catch((error) => {
+                console.log(error)
+            })
             break;
         default:
             return res.json('parque nao suportado')
             break;
     }
+});
 
-    // Access wait times by Promise
-    dataPark.GetWaitTimes().then((rideTimes) => {
-        res.json(rideTimes);
-    }).catch((error) => {
-        console.error(error);
-    })
-})
+
 
 
 app.get('/parques', (req, res) => {
@@ -119,16 +186,12 @@ app.get('/parques', (req, res) => {
                     data.push({ "WaltDisneyWorldAnimalKingdom": d })
                     WaltDisneyWorldEpcot.GetWaitTimes().then((d) => {
                         data.push({ "WaltDisneyWorldEpcot": d })
-                        SeaworldOrlando.GetWaitTimes().then((d) => {
-                            data.push({ "SeaworldOrlando": d })
-                            BuschGardensTampa.GetWaitTimes().then((d) => {
-                                data.push({ "BuschGardensTampa": d })
-                                SixFlagsDiscoveryKingdom.GetWaitTimes().then((d) => {
-                                    data.push({ "SixFlagsDiscoveryKingdom": d })
-                                    res.json(data);
-                                }).catch((error) => {
-                                    console.log(error)
-                                })
+                        UniversalStudiosFlorida.GetWaitTimes().then((d) => {
+                            data.push(d)
+                            UniversalIslandsOfAdventure.GetWaitTimes().then((d) => {
+                                data.push(d)
+                                return res.json(data);
+
                             }).catch((error) => {
                                 console.log(error)
                             })
@@ -148,88 +211,17 @@ app.get('/parques', (req, res) => {
         }).catch((error) => {
             console.log(error)
         })
-
-
-
-        // UniversalStudiosFlorida.GetWaitTimes().then((d) => {
-        //     data.push(d)
-        // }).catch((error) => {
-        //     console.log(error)
-        // })
-        // UniversalIslandsOfAdventure.GetWaitTimes().then((d) => {
-        //     data.push(d)
-        // }).catch((error) => {
-        //     console.log(error)
-        // })
-
-
-
-
-
-
-
     }
 
     processo();
 
+});
 
-
-})
-
-app.get('/count-down', (req, res) => {
-
-    const { email } = req.query;
-
-    try {
-        fs.readFile('./data.json', (err, data) => {
-            if (err) console.log(err);
-            let database = JSON.parse(data);
-            let verify = database.table.filter(value => {
-                if (value.email === email) {
-                    return value
-                }
-            })
-
-            if (verify[0].email === email) {
-                const { email, data } = verify[0];
-                return res.status(200).json({ email, data });
-            } else {
-                return res.status(500).json({ message: "email não encontrado" })
-
-            }
-        });
-    } catch (error) {
-        return res.status(500).json({ message: error })
-    }
-
-
-})
-
-app.post('/count-down', (req, res) => {
-
-    const { email, data } = req.body;
-
-    try {
-        fs.readFile('./data.json', (err, response) => {
-
-            let database = JSON.parse(response);
-            database.table.push({ email: email, data: data });
-            var json = JSON.stringify(database);
-            fs.writeFile('./data.json', json, function (err, result) {
-                if (err) console.log('error', err);
-                return res.status(200).json({ message: "success" })
-            });
-
-        });
-
-    } catch (error) {
-        return res.status(500).json({ message: error })
-    }
-
-})
 
 
 app.listen(PORT, function () {
     console.log("estou no ar")
 })
+
+
 
