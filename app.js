@@ -2,13 +2,15 @@ const Express = require('express');
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = new Express();
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(Express.json())
+app.use(Express.urlencoded({ extended: true }))
 const PORT = 3000;
 var Themeparks = require("themeparks");
 const baseUrl = 'https://touringplans.com';
 const fs = require('fs');
 const fetch = require('node-fetch');
+const axios = require('axios');
+const cors = require('cors')
 
 const DisneyWorldMagicKingdom = new Themeparks.Parks.WaltDisneyWorldMagicKingdom();
 const WaltDisneyWorldHollywoodStudios = new Themeparks.Parks.WaltDisneyWorldHollywoodStudios();
@@ -217,6 +219,43 @@ app.get('/parques', (req, res) => {
 
 });
 
+
+app.post('/sehal', async (req, res) => {
+    const { login, senha } = req.body
+    const token = "815E6988B0AEA1BAA77AD0688A2EA361";
+    if (!login || !senha) return res.status(401).json({ error: true, msg: "login e senha obrigatorio" })
+
+    const data = JSON.stringify({
+        "sdtCNPJ": {
+            "Token": token,
+            "CNPJ": login
+        }
+    });
+
+    var config = {
+        method: 'post',
+        url: 'https://sehal.arccasoftware.com/rest/getdadospessoa',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: data
+    };
+
+   await axios(config)
+        .then(function (response) {
+            
+            response.data.sdtDadosPessoa.senha = "1234";
+            if (response.data.sdtDadosPessoa.senha !== senha) {
+                return res.status(400).json({ error: true, msg: "senha incorreta" })
+            }
+            delete response.data.sdtDadosPessoa.senha;
+            res.json(response.data.sdtDadosPessoa).status(200);
+        })
+        .catch(function (error) {
+            res.json(error).status(500);
+        });
+
+})
 
 
 app.listen(PORT, function () {
