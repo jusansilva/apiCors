@@ -249,6 +249,8 @@ app.post('/sehal', async (req, res) => {
                 return res.status(400).json({ error: true, msg: "senha incorreta" })
             }
             delete response.data.sdtDadosPessoa.senha;
+            console.log(response.data.sdtDadosPessoa)
+
             res.json(response.data.sdtDadosPessoa).status(200);
         })
         .catch(function (error) {
