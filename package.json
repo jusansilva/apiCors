@@ -17,7 +17,7 @@
     "wdwjs": "^5.0.0"
   },
   "scripts": {
-    "start": "npm install && node app.js"
+    "start": "node app.js"
   },
   "author": "Jusan Magno",
   "license": "ISC"

@@ -221,6 +221,7 @@ app.get('/parques', (req, res) => {
 
 
 app.post('/sehal', async (req, res) => {
+    res.header({"Access-Control-Allow-Origin":"*"})
     const { login, senha } = req.body
     const token = "815E6988B0AEA1BAA77AD0688A2EA361";
     if (!login || !senha) return res.status(401).json({ error: true, msg: "login e senha obrigatorio" })
@@ -248,7 +249,7 @@ app.post('/sehal', async (req, res) => {
             if (response.data.sdtDadosPessoa.senha !== senha) {
                 return res.status(400).json({ error: true, msg: "senha incorreta" })
             }
-            delete response.data.sdtDadosPessoa.senha;
+            delete response.data.sdtDadosPessoa.Senha;
             console.log(response.data.sdtDadosPessoa)
 
             res.json(response.data.sdtDadosPessoa).status(200);
